@@ -88,10 +88,10 @@
 		737A0CD13006F80900363806 = {
 			isa = PBXGroup;
 			children = (
+				737A0CDC3006F80900363806 /* alohomora */,
 				737A0CF63006F80900363806 /* alohomoraTests */,
 				737A0D003006F80900363806 /* alohomoraUITests */,
 				737A0CDB3006F80900363806 /* Products */,
-				737A0CDC3006F80900363806 /* alohomora */,
 			);
 			sourceTree = "<group>";
 		};

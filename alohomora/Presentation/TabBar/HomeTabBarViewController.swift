@@ -20,7 +20,7 @@ class HomeTabBarViewController: UITabBarController, UITableViewDelegate, UIColle
             buildSearch()
         ]
 
-        viewControllers = controllers.map{ UINavigationController(rootViewController: $0)}
+        viewControllers = controllers.map { UINavigationController(rootViewController: $0)}
 
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithOpaqueBackground()
@@ -30,14 +30,14 @@ class HomeTabBarViewController: UITabBarController, UITableViewDelegate, UIColle
 
         let navAppearance = UINavigationBarAppearance()
         navAppearance.configureWithOpaqueBackground()
-        navAppearance.backgroundColor = .brown
+        navAppearance.backgroundColor = .clear
         UINavigationBar.appearance().standardAppearance = navAppearance
         UINavigationBar.appearance().compactAppearance = navAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
     }
 
     func buildHome() -> UIViewController {
-        let homeViewController = UIViewController()
+        let homeViewController = HomeViewController()
         homeViewController.tabBarItem = UITabBarItem(title: "Home", image: .init(systemName: "house"), tag: 0)
 
         return homeViewController
