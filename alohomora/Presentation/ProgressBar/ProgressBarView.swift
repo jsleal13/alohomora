@@ -34,6 +34,8 @@ final class ProgressBar: UIView {
     }
     
     private func setupLayers() {
+        translatesAutoresizingMaskIntoConstraints = false
+        
         trackLayer.fillColor = UIColor.systemGray5.cgColor
         layer.addSublayer(trackLayer)
         
@@ -66,19 +68,12 @@ final class ProgressBar: UIView {
         trackLayer.path = UIBezierPath(roundedRect: CGRect(origin: .zero, size: barRect.size), cornerRadius: barHeight / 2).cgPath
         
         containerLayer.frame = barRect
-        
         progressLayer.frame = containerLayer.bounds
         shimmerLayer.frame = containerLayer.bounds
         
         updateGhostPath()
-        startShimmerAnimation()
-        startIndeterminateAnimation()
-    }
-    
-    override func didMoveToWindow() {
-        super.didMoveToWindow()
-        if window != nil {
-            updateGhostPath()
+
+        if progressShape.animation(forKey: "indeterminateSlide") != nil {
             startShimmerAnimation()
             startIndeterminateAnimation()
         }
@@ -114,5 +109,49 @@ final class ProgressBar: UIView {
         animation.repeatCount = .infinity
         animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         progressShape.add(animation, forKey: "indeterminateSlide")
+    }
+    
+    // MARK: - Controle de Estado Avançado
+    func startLoading(in containerView: UIView, fadingOut contentView: UIView?) {
+        if let contentView = contentView {
+            UIView.animate(withDuration: 0.25) {
+                contentView.alpha = 0.0
+            }
+        }
+
+        containerView.addSubview(self)
+        self.alpha = 0.0
+
+        NSLayoutConstraint.activate([
+            self.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            self.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 32),
+            self.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -32),
+            self.heightAnchor.constraint(equalToConstant: barHeight)
+        ])
+
+        containerView.layoutIfNeeded()
+        
+        startShimmerAnimation()
+        startIndeterminateAnimation()
+        
+        UIView.animate(withDuration: 0.25) {
+            self.alpha = 1.0
+        }
+    }
+
+    func stopLoading(showing contentView: UIView?) {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.alpha = 0.0
+        }) { _ in
+            self.shimmerLayer.removeAnimation(forKey: "shimmerSlide")
+            self.progressShape.removeAnimation(forKey: "indeterminateSlide")
+            self.removeFromSuperview()
+            
+            if let contentView = contentView {
+                UIView.animate(withDuration: 0.25) {
+                    contentView.alpha = 1.0
+                }
+            }
+        }
     }
 }

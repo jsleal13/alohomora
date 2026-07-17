@@ -84,35 +84,11 @@ final class SpellbookView: UIView {
     }
     
     func startLoading() {
-        UIView.animate(withDuration: 0.25) {
-            self.collectionView.alpha = 0.0
-        }
-
-        addSubview(progressBar)
-        progressBar.alpha = 0.0
-        
-        NSLayoutConstraint.activate([
-            progressBar.centerYAnchor.constraint(equalTo: centerYAnchor),
-            progressBar.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            progressBar.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
-            progressBar.heightAnchor.constraint(equalToConstant: 8)
-        ])
-
-        layoutIfNeeded()
-        
-        UIView.animate(withDuration: 0.25) {
-            self.progressBar.alpha = 1.0
-        }
+        progressBar.startLoading(in: self, fadingOut: collectionView)
     }
 
     func stopLoading() {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.progressBar.alpha = 0.0
-        }) { _ in
-            self.progressBar.removeFromSuperview()
-        }
-
-        self.collectionView.alpha = 1.0
+        progressBar.stopLoading(showing: collectionView)
     }
 }
 

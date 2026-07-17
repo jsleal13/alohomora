@@ -64,34 +64,10 @@ final class CharactersView: UIView {
     }
     
     func startLoading() {
-        UIView.animate(withDuration: 0.25) {
-            self.mainCarroussel.alpha = 0.0
-        }
-
-        addSubview(progressBar)
-        progressBar.alpha = 0.0
-        
-        NSLayoutConstraint.activate([
-            progressBar.centerYAnchor.constraint(equalTo: centerYAnchor),
-            progressBar.leadingAnchor.constraint(equalTo: leadingAnchor),
-            progressBar.trailingAnchor.constraint(equalTo: trailingAnchor),
-            progressBar.heightAnchor.constraint(equalToConstant: 8)
-        ])
-
-        layoutIfNeeded()
-        
-        UIView.animate(withDuration: 0.25) {
-            self.progressBar.alpha = 1.0
-        }
+        progressBar.startLoading(in: self, fadingOut: mainCarroussel)
     }
 
     func stopLoading() {
-        UIView.animate(withDuration: 0.2, animations: {
-            self.progressBar.alpha = 0.0
-        }) { _ in
-            self.progressBar.removeFromSuperview()
-        }
-
-        self.mainCarroussel.alpha = 1.0
+        progressBar.stopLoading(showing: mainCarroussel)
     }
 }

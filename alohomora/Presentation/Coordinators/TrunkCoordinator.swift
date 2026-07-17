@@ -16,6 +16,7 @@ final class TrunkCoordinator: Coordinator {
     }
     
     func start() {
-        
+        let trunkVC = TrunkFactory.make()
+        navigationController.setViewControllers([trunkVC], animated: false)
     }
 }
