@@ -12,8 +12,9 @@ protocol FetchAllCharactersUseCaseProtocol {
 }
 
 final class FetchAllCharactersUseCase: FetchAllCharactersUseCaseProtocol {
-    private let repository: HomeRepositoryProtocol
-    init(repository: HomeRepositoryProtocol) { self.repository = repository }
+    private let repository: CharacterRepositoryProtocol
+
+    init(repository: CharacterRepositoryProtocol) { self.repository = repository }
     
     func execute() async throws -> [Character] {
         return try await repository.fetchCharacters()
@@ -25,8 +26,9 @@ protocol FetchMainCharactersUseCaseProtocol {
 }
 
 final class FetchMainCharactersUseCase: FetchMainCharactersUseCaseProtocol {
-    private let repository: HomeRepositoryProtocol
-    init(repository: HomeRepositoryProtocol) { self.repository = repository }
+    private let repository: CharacterRepositoryProtocol
+
+    init(repository: CharacterRepositoryProtocol) { self.repository = repository }
     
     func execute() async throws -> [Character] {
         let allCharacters = try await repository.fetchCharacters()
@@ -40,8 +42,9 @@ protocol FetchCharactersByHouseUseCaseProtocol {
 }
 
 final class FetchCharactersByHouseUseCase: FetchCharactersByHouseUseCaseProtocol {
-    private let repository: HomeRepositoryProtocol
-    init(repository: HomeRepositoryProtocol) { self.repository = repository }
+    private let repository: CharacterRepositoryProtocol
+
+    init(repository: CharacterRepositoryProtocol) { self.repository = repository }
     
     func execute(house: String) async throws -> [Character] {
         return try await repository.fetchCharacters(house: house)
@@ -53,8 +56,9 @@ protocol FetchCharacterDetailsUseCaseProtocol {
 }
 
 final class FetchCharacterDetailsUseCase: FetchCharacterDetailsUseCaseProtocol {
-    private let repository: HomeRepositoryProtocol
-    init(repository: HomeRepositoryProtocol) { self.repository = repository }
+    private let repository: CharacterRepositoryProtocol
+
+    init(repository: CharacterRepositoryProtocol) { self.repository = repository }
     
     func execute(id: String) async throws -> Character? {
         return try await repository.fetchCharacter(id: id)

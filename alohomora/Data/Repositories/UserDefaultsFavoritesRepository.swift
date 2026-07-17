@@ -9,23 +9,24 @@ import Foundation
 
 final class UserDefaultsFavoritesRepository: FavoritesRepositoryProtocol {
     private let defaults = UserDefaults.standard
-    private let favoritesKey = "user_favorite_ids"
     
-    func getFavorites() -> [String] {
-        return defaults.stringArray(forKey: favoritesKey) ?? []
+    func getFavorites(for type: FavoriteType) -> [String] {
+        return defaults.stringArray(forKey: type.rawValue) ?? []
     }
     
-    func isFavorite(id: String) -> Bool {
-        return getFavorites().contains(id)
+    func isFavorite(id: String, type: FavoriteType) -> Bool {
+        return getFavorites(for: type).contains(id)
     }
     
-    func toggleFavorite(id: String) {
-        var favorites = Set(getFavorites())
+    func toggleFavorite(id: String, type: FavoriteType) {
+        var favorites = Set(getFavorites(for: type))
+        
         if favorites.contains(id) {
             favorites.remove(id)
         } else {
             favorites.insert(id)
         }
-        defaults.set(Array(favorites), forKey: favoritesKey)
+        
+        defaults.set(Array(favorites), forKey: type.rawValue)
     }
 }

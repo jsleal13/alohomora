@@ -6,7 +6,7 @@
 //
 
 protocol FavoritesRepositoryProtocol {
-    func getFavorites() -> [String]
-    func isFavorite(id: String) -> Bool
-    func toggleFavorite(id: String)
+    func getFavorites(for type: FavoriteType) -> [String]
+    func isFavorite(id: String, type: FavoriteType) -> Bool
+    func toggleFavorite(id: String, type: FavoriteType)
 }

@@ -1,11 +1,11 @@
 //
-//  HomeRepository.swift
+//  CharacterRepository.swift
 //  alohomora
 //
 //  Created by Janine Leal on 16/07/26.
 //
 
-final class HomeRepository: HomeRepositoryProtocol {
+final class CharacterRepository: CharacterRepositoryProtocol {
     private let apiClient: RequestProtocol
 
     init(apiClient: RequestProtocol = APIClient.shared) {

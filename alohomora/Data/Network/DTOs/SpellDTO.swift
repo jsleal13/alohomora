@@ -17,4 +17,8 @@ struct SpellDTO: Decodable {
         case name
         case description
     }
+    
+    func toDomain() -> Spell {
+        return Spell(id: id, name: name, description: description)
+    }
 }

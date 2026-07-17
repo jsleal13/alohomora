@@ -16,6 +16,7 @@ final class SpellbookCoordinator: Coordinator {
     }
     
     func start() {
-        
+        let spellbookVC = SpellbookFactory.make()
+        navigationController.setViewControllers([spellbookVC], animated: false)
     }
 }

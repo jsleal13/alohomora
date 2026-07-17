@@ -10,14 +10,19 @@ import UIKit
 final class HomeViewController: BaseViewController {
     let mainView: HomeView
     private let viewModel: HomeViewModel
+    let toggleFavorite: ToggleCharacterFavoriteUseCaseProtocol
 
     override func loadView() {
         super.loadView()
         view = mainView
     }
 
-    init(viewModel: HomeViewModel) {
+    init(
+        viewModel: HomeViewModel,
+        toggleFavorite: ToggleCharacterFavoriteUseCaseProtocol
+    ) {
         self.viewModel = viewModel
+        self.toggleFavorite = toggleFavorite
         self.mainView = HomeView()
         super.init(nibName: nil, bundle: nil)
     }
@@ -39,6 +44,7 @@ final class HomeViewController: BaseViewController {
             }
         }
 
+        setupLongPressGesture()
         viewModel.loadCharacters()
     }
 
@@ -63,6 +69,30 @@ final class HomeViewController: BaseViewController {
         case .error(let error):
             mainView.charactersView.stopLoading()
             //            contentView.showError(error.localizedDescription)
+        }
+    }
+
+    private func setupLongPressGesture() {
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        longPress.minimumPressDuration = 0.5
+
+        mainView.charactersView.mainCarroussel.addGestureRecognizer(longPress)
+    }
+
+    @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began else { return }
+        
+        let collectionView = mainView.charactersView.mainCarroussel
+        let touchPoint = gesture.location(in: collectionView)
+        
+        if let indexPath = collectionView.indexPathForItem(at: touchPoint) {
+            if let character = viewModel.character(at: indexPath.item) {
+
+                toggleFavorite.packInTrunk(character.id)
+
+                let impactMed = UIImpactFeedbackGenerator(style: .medium)
+                impactMed.impactOccurred()
+            }
         }
     }
 }

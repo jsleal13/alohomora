@@ -5,18 +5,39 @@
 //  Created by Janine Leal on 17/07/26.
 //
 
-protocol ToggleFavoriteUseCaseProtocol {
-    func execute(characterId: String)
+protocol ToggleCharacterFavoriteUseCaseProtocol {
+    func packInTrunk(_ characterId: String)
 }
 
-final class ToggleFavoriteUseCase: ToggleFavoriteUseCaseProtocol {
-    private let repository: FavoritesRepositoryProtocol
+protocol ToggleSpellFavoriteUseCaseProtocol {
+    func packInTrunk(_ spellId: String)
+}
 
+final class ToggleCharacterFavoriteUseCase: ToggleCharacterFavoriteUseCaseProtocol{
+    private let repository: FavoritesRepositoryProtocol
+    
     init(repository: FavoritesRepositoryProtocol) {
         self.repository = repository
     }
     
-    func execute(characterId: String) {
-        repository.toggleFavorite(id: characterId)
+    func packInTrunk(_ characterId: String) {
+        repository.toggleFavorite(id: characterId, type: .character)
     }
+}
+
+final class ToggleSpellFavoriteUseCase: ToggleSpellFavoriteUseCaseProtocol {
+    private let repository: FavoritesRepositoryProtocol
+    
+    init(repository: FavoritesRepositoryProtocol) {
+        self.repository = repository
+    }
+    
+    func packInTrunk(_ spellId: String) {
+        repository.toggleFavorite(id: spellId, type: .spell)
+    }
+}
+
+enum FavoriteType: String {
+    case character = "favorite_characters"
+    case spell = "favorite_spells"
 }

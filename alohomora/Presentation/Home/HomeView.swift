@@ -12,7 +12,7 @@ final class HomeView: UIView {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = "Alohomora!"
-        label.font = .systemFont(ofSize: 34, weight: .bold)
+        label.font = UIFont(name: "Georgia-Bold", size: 32) ?? .systemFont(ofSize: 32, weight: .bold)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -22,7 +22,7 @@ final class HomeView: UIView {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = "Bom dia, bruxo(a)"
-        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.font = UIFont(name: "Georgia-Bold", size: 18) ?? .systemFont(ofSize: 32, weight: .regular)
         label.textColor = .lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
