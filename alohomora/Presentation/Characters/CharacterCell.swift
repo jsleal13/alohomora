@@ -71,11 +71,11 @@ final class CharacterCell: UICollectionViewCell {
 
     func setUp(with character: Character) {
         nameLabel.text = character.name
-        backgroundColor = character.house.color
-        layer.borderColor = character.house.color.grayedOut().cgColor
-        nameLabel.textColor = character.house.secondaryColor
+        backgroundColor = UIColor(hex: character.house?.primaryColorHex ?? "")
+        layer.borderColor = UIColor(hex: character.house?.secondaryColorHex ?? "")?.cgColor
+        nameLabel.textColor = UIColor(hex: character.house?.secondaryColorHex ?? "")
 
-        imageTask = ImageLoader.shared.loadImage(from: character.photoURL) { [weak self] image in
+        imageTask = ImageLoader.shared.loadImage(from: character.image) { [weak self] image in
             self?.photoImageView.image = image
         }
     }

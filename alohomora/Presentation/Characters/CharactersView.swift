@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainCharactersView: UIView {
+final class CharactersView: UIView {
     private lazy var title: UILabel = {
         let label = UILabel()
         label.text = "Main Characters"
@@ -15,7 +15,7 @@ final class MainCharactersView: UIView {
         return label
     }()
     
-    private lazy var mainCarroussel: UICollectionView = {
+    lazy var mainCarroussel: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 160, height: 54)
@@ -25,9 +25,7 @@ final class MainCharactersView: UIView {
         let element = UICollectionView(frame: frame, collectionViewLayout: layout)
         element.translatesAutoresizingMaskIntoConstraints = false
         element.showsHorizontalScrollIndicator = false
-        element.register(HouseCell.self, forCellWithReuseIdentifier: "HouseCell")
-        element.delegate = self
-        element.dataSource = self
+        element.register(CharacterCell.self, forCellWithReuseIdentifier: "CharacterCell")
         return element
     }()
     
@@ -52,18 +50,5 @@ final class MainCharactersView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension MainCharactersView: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return housesList.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HouseCell", for: indexPath) as! HouseCell
-        let house = housesList[indexPath.item]
-        cell.setUp(with: house)
-        return cell
     }
 }

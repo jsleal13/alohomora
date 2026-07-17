@@ -9,19 +9,10 @@ import UIKit
 
 final class HousesView: UIView {
     private let housesList: [House] = [
-        .init(name: "Gryffindor",
-              mainColor: UIColor.HogwartsHouse.gryffindor,
-              secondaryColor:  UIColor.HogwartsHouse.gryffindorGold
-             ),
-        .init(name: "Hufflepuff",
-              mainColor: UIColor.HogwartsHouse.hufflepuff,
-              secondaryColor:  UIColor.HogwartsHouse.hufflepuffBlack),
-        .init(name: "Ravenclaw",
-              mainColor: UIColor.HogwartsHouse.ravenclaw,
-              secondaryColor:  UIColor.HogwartsHouse.ravenclawBronze),
-        .init(name: "Slytherin",
-              mainColor: UIColor.HogwartsHouse.slytherin,
-              secondaryColor:  UIColor.HogwartsHouse.slytherinSilver)
+        House.gryffindor,
+        House.hufflepuff,
+        House.ravenclaw,
+        House.slytherin
     ]
 
     private lazy var title: UILabel = {

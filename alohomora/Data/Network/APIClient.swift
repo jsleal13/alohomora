@@ -8,7 +8,7 @@
 import Foundation
 
 protocol RequestProtocol {
-    func request<T: Codable>(target: RequestInfos) async throws -> (T) where T : Decodable, T : Encodable
+    func request<T: Decodable>(target: RequestInfos) async throws -> (T) where T : Decodable
 }
 
 enum NetworkingError: Error {
@@ -21,7 +21,7 @@ class APIClient: RequestProtocol {
     let urlSession = URLSession.shared
     static let shared = APIClient()
 
-    func request<T>(target: RequestInfos) async throws -> (T) where T : Decodable, T : Encodable {
+    func request<T>(target: RequestInfos) async throws -> (T) where T : Decodable {
         let url = target.baseURL + target.endpoint
         guard var components = URLComponents(string: url) else { throw NetworkingError.noComponents }
 

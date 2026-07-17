@@ -37,14 +37,8 @@ final class HouseCell: UICollectionViewCell {
 
     func setUp(with house: House) {
         nameLabel.text = house.name
-        backgroundColor = house.mainColor
-        layer.borderColor = house.secondaryColor.cgColor
-        nameLabel.textColor = house.secondaryColor
+        backgroundColor = UIColor(hex: house.primaryColorHex)
+        layer.borderColor = UIColor(hex: house.secondaryColorHex)?.cgColor
+        nameLabel.textColor = UIColor(hex: house.secondaryColorHex)
     }
-}
-
-struct House {
-    let name: String
-    let mainColor: UIColor
-    let secondaryColor: UIColor
 }

@@ -44,8 +44,8 @@ final class HomeView: UIView {
         return housesView
     }()
     
-    private lazy var charactersView: MainCharactersView = {
-        let element = MainCharactersView()
+    lazy var charactersView: CharactersView = {
+        let element = CharactersView()
         element.translatesAutoresizingMaskIntoConstraints = false
         return element
     }()

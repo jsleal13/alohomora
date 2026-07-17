@@ -18,14 +18,13 @@ protocol RequestInfos {
     var baseURL: String { get }
     var endpoint: String { get }
     var parameters: [String : String]? { get }
-    var accessToken: String? { get }
     var body: [String :  String]? { get }
     var httpMethod: HTTPMethodType { get }
 }
 
 extension RequestInfos {
     var baseURL: String {
-        "https://hp-api.onrender.com/"
+        "https://hp-api.onrender.com/api/"
     }
 
     var body: [String :  String]? {

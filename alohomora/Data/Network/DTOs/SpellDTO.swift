@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+struct SpellDTO: Decodable {
+    let id: String
+    let name: String
+    let description: String
+
+    enum CodingKeys: CodingKey {
+        case id
+        case name
+        case description
+    }
+}

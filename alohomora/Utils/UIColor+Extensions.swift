@@ -8,18 +8,48 @@
 import UIKit
 
 extension UIColor {
-    enum HogwartsHouse {
-        static let gryffindor = UIColor(red: 0.74, green: 0.11, blue: 0.11, alpha: 1.0)
-        static let gryffindorGold = UIColor(red: 0.85, green: 0.65, blue: 0.13, alpha: 1.0)
-        
-        static let slytherin = UIColor(red: 0.11, green: 0.36, blue: 0.22, alpha: 1.0)
-        static let slytherinSilver = UIColor(red: 0.68, green: 0.71, blue: 0.71, alpha: 1.0)
-        
-        static let hufflepuff = UIColor(red: 0.93, green: 0.79, blue: 0.13, alpha: 1.0)
-        static let hufflepuffBlack = UIColor(red: 0.10, green: 0.09, blue: 0.09, alpha: 1.0)
-        
-        static let ravenclaw = UIColor(red: 0.02, green: 0.11, blue: 0.34, alpha: 1.0)
-        static let ravenclawBronze = UIColor(red: 0.60, green: 0.44, blue: 0.20, alpha: 1.0)
+    convenience init?(hex: String) {
+        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
+
+        var rgb: UInt64 = 0
+        guard Scanner(string: hexSanitized).scanHexInt64(&rgb) else { return nil }
+
+        let a, r, g, b: UInt64
+
+        switch hexSanitized.count {
+        case 3:
+            (a, r, g, b) = (255,
+                            (rgb >> 8) * 17,
+                            (rgb >> 4 & 0xF) * 17,
+                            (rgb & 0xF) * 17)
+        case 6:
+            (a, r, g, b) = (255,
+                            rgb >> 16,
+                            rgb >> 8 & 0xFF,
+                            rgb & 0xFF)
+        case 8:
+            (a, r, g, b) = (rgb >> 24,
+                            rgb >> 16 & 0xFF,
+                            rgb >> 8 & 0xFF,
+                            rgb & 0xFF)
+        default:
+            return nil
+        }
+
+        self.init(red: CGFloat(r) / 255,
+                  green: CGFloat(g) / 255,
+                  blue: CGFloat(b) / 255,
+                  alpha: CGFloat(a) / 255)
     }
-    
+
+    var toHex: String? {
+        guard let components = cgColor.components, components.count >= 3 else { return nil }
+        
+        let r = Int(components[0] * 255)
+        let g = Int(components[1] * 255)
+        let b = Int(components[2] * 255)
+        
+        return String(format: "#%02X%02X%02X", r, g, b)
+    }
 }
