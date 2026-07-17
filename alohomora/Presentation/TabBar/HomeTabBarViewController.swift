@@ -7,24 +7,15 @@
 
 import UIKit
 
-class HomeTabBarViewController: UITabBarController, UITableViewDelegate, UICollectionViewDelegate {
+class HomeTabBarController: UITabBarController, UITableViewDelegate, UICollectionViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.tintColor = .blue
-        tabBar.isTranslucent = false
-
-        let controllers = [
-            buildHome(),
-            buildSaved(),
-            buildDownloaded(),
-            buildSearch()
-        ]
-
-        viewControllers = controllers.map { UINavigationController(rootViewController: $0)}
+        view.tintColor = .white
+        tabBar.isTranslucent = true
 
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithOpaqueBackground()
-        tabBarAppearance.backgroundColor = .gray
+        tabBarAppearance.backgroundColor = .clear
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         UITabBar.appearance().standardAppearance = tabBarAppearance
 
@@ -34,33 +25,5 @@ class HomeTabBarViewController: UITabBarController, UITableViewDelegate, UIColle
         UINavigationBar.appearance().standardAppearance = navAppearance
         UINavigationBar.appearance().compactAppearance = navAppearance
         UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
-    }
-
-    func buildHome() -> UIViewController {
-        let homeViewController = HomeViewController(viewModel: CharactersViewModel())
-        homeViewController.tabBarItem = UITabBarItem(title: "Home", image: .init(systemName: "house"), tag: 0)
-
-        return homeViewController
-    }
-
-    func buildSaved() -> UIViewController {
-        let comingSoonController = UIViewController()
-        comingSoonController.tabBarItem = UITabBarItem(title: "Favorite", image: .init(systemName: "heart.fill"), tag: 1)
-
-        return comingSoonController
-    }
-
-    func buildDownloaded() -> UIViewController {
-        let downloadedController = UIViewController()
-        downloadedController.tabBarItem = UITabBarItem(title: "Downloaded", image: .init(systemName: "arrow.down.circle.fill"), tag: 2)
-
-        return downloadedController
-    }
-
-    func buildSearch() -> UIViewController {
-        let searchController = UIViewController()
-        searchController.tabBarItem = UITabBarItem(title: "Search", image: .init(systemName: "magnifyingglass"), tag: 3)
-
-        return searchController
     }
 }

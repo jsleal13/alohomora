@@ -8,17 +8,17 @@
 import UIKit
 
 final class HomeViewController: BaseViewController {
-    let mainView = HomeView()
+    let mainView: HomeView
+    private let viewModel: HomeViewModel
 
     override func loadView() {
         super.loadView()
         view = mainView
     }
-    
-    private let viewModel: CharactersViewModel
 
-    init(viewModel: CharactersViewModel) {
+    init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
+        self.mainView = HomeView()
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -42,18 +42,18 @@ final class HomeViewController: BaseViewController {
     }
 
     private func handle(_ state: ViewState<[Character]>) {
-//        switch state {
-//        case .idle:
-//            break
-//        case .loading:
-//            contentView.showLoading()
-//        case .loaded:
-//            contentView.hideLoading()
-//            contentView.collectionView.reloadData()
-//        case .error(let error):
-//            contentView.hideLoading()
+        switch state {
+        case .idle:
+            break
+        case .loading:
+            mainView.charactersView.startLoading()
+        case .loaded(let characters):
+            mainView.charactersView.stopLoading()
+            mainView.charactersView.mainCarroussel.reloadData()
+        case .error(let error):
+            mainView.charactersView.stopLoading()
 //            contentView.showError(error.localizedDescription)
-//        }
+        }
     }
 }
 

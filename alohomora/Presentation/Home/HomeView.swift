@@ -8,24 +8,12 @@
 import UIKit
 
 final class HomeView: UIView {
-    private lazy var mainStack: UIStackView = {
-        let element = UIStackView(
-            arrangedSubviews: [
-                title,
-                subtitle,
-                housesView,
-                charactersView
-            ]
-        )
-        element.translatesAutoresizingMaskIntoConstraints = false
-        element.axis = .vertical
-        return element
-    }()
-
     private lazy var title: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = "Alohomora!"
+        label.font = .systemFont(ofSize: 34, weight: .bold)
+        label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -34,6 +22,8 @@ final class HomeView: UIView {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = "Bom dia, bruxo(a)"
+        label.font = .systemFont(ofSize: 18, weight: .regular)
+        label.textColor = .lightGray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -56,12 +46,27 @@ final class HomeView: UIView {
     }
     
     private func setElements() {
-        addSubview(mainStack)
+        addSubview(title)
+        addSubview(subtitle)
+        addSubview(housesView)
+        addSubview(charactersView)
+
         NSLayoutConstraint.activate([
-            mainStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            mainStack.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            mainStack.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            mainStack.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            title.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            title.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            title.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
+            subtitle.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 16),
+            subtitle.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            subtitle.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
+            housesView.topAnchor.constraint(equalTo: subtitle.bottomAnchor, constant: 64),
+            housesView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            housesView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
+            charactersView.topAnchor.constraint(equalTo: housesView.bottomAnchor, constant: 16),
+            charactersView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            charactersView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16)
         ])
     }
 

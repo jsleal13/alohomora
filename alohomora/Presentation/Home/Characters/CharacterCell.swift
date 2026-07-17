@@ -21,7 +21,7 @@ final class CharacterCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.font = UIFont(name: "Rockwell", size: 16)
-        label.numberOfLines = 1
+        label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -48,7 +48,8 @@ final class CharacterCell: UICollectionViewCell {
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
 
-            photoImageView.heightAnchor.constraint(equalTo: photoImageView.widthAnchor)
+            photoImageView.heightAnchor.constraint(equalToConstant: 130),
+            photoImageView.widthAnchor.constraint(equalToConstant: 100)
         ])
 
         layer.cornerRadius = 12
