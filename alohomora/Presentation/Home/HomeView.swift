@@ -28,7 +28,7 @@ final class HomeView: UIView {
         return label
     }()
     
-    private lazy var housesView: HousesView = {
+    lazy var housesView: HousesView = {
         let housesView = HousesView()
         housesView.translatesAutoresizingMaskIntoConstraints = false
         return housesView

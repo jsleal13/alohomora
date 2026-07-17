@@ -10,8 +10,12 @@ import UIKit
 final class HomeFactory {
     static func make() -> UIViewController {
         let repository = HomeRepository()
-        let fetchCharactersUseCase = FetchMainCharactersUseCase(repository: repository)
-        let viewModel = HomeViewModel(useCase: fetchCharactersUseCase)
+        let fetchMainCharactersUseCase = FetchMainCharactersUseCase(repository: repository)
+        let fetchCharactersByHouseUseCase = FetchCharactersByHouseUseCase(repository: repository)
+        let viewModel = HomeViewModel(
+            mainCharactersUseCase: fetchMainCharactersUseCase,
+            charactersByHouseUseCase: fetchCharactersByHouseUseCase
+        )
         let viewController = HomeViewController(viewModel: viewModel)
 
         return viewController

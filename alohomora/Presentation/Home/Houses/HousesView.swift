@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol HousesViewDelegate: AnyObject {
+    func didSelectHouse(_ house: House)
+}
+
 final class HousesView: UIView {
+    weak var delegate: HousesViewDelegate?
+    var currentHouse: House?
+
     private let housesList: [House] = [
         House.gryffindor,
         House.hufflepuff,
@@ -76,5 +83,12 @@ extension HousesView: UICollectionViewDataSource, UICollectionViewDelegate {
         let house = housesList[indexPath.item]
         cell.setUp(with: house)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let house = housesList[indexPath.item]
+        guard currentHouse?.name != house.name else { return }
+        delegate?.didSelectHouse(house)
+        currentHouse = house
     }
 }

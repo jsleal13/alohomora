@@ -28,7 +28,8 @@ final class HomeViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        mainView.housesView.delegate = self
         mainView.charactersView.mainCarroussel.dataSource = self
         mainView.charactersView.mainCarroussel.delegate = self
 
@@ -48,11 +49,20 @@ final class HomeViewController: BaseViewController {
         case .loading:
             mainView.charactersView.startLoading()
         case .loaded(let characters):
+            /// ainda que não esteja seja usado, deixei para lembrar que é possível passar generics nos enums
             mainView.charactersView.stopLoading()
-            mainView.charactersView.mainCarroussel.reloadData()
+            UIView.transition(
+                with: mainView.charactersView.mainCarroussel,
+                duration: 0.4,
+                options: [.transitionCrossDissolve, .curveEaseInOut],
+                animations: {
+                    self.mainView.charactersView.mainCarroussel.reloadData()
+                },
+                completion: nil
+            )
         case .error(let error):
             mainView.charactersView.stopLoading()
-//            contentView.showError(error.localizedDescription)
+            //            contentView.showError(error.localizedDescription)
         }
     }
 }
@@ -68,5 +78,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.setUp(with: character)
         }
         return cell
+    }
+}
+
+extension HomeViewController: HousesViewDelegate {
+    func didSelectHouse(_ house: House) {
+        viewModel.loadCharactersByHouse(house: house)
     }
 }

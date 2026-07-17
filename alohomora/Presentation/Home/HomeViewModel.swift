@@ -13,12 +13,17 @@ enum ViewState<T> {
 }
 
 final class HomeViewModel {
-    private let useCase: FetchMainCharactersUseCaseProtocol
+    private let mainCharactersUseCase: FetchMainCharactersUseCaseProtocol
+    private let charactersByHouseUseCase: FetchCharactersByHouseUseCaseProtocol
     private(set) var characters: [Character] = []
     var onStateChange: ((ViewState<[Character]>) -> Void)?
 
-    init(useCase: FetchMainCharactersUseCaseProtocol) {
-        self.useCase = useCase
+    init(
+        mainCharactersUseCase: FetchMainCharactersUseCaseProtocol,
+        charactersByHouseUseCase: FetchCharactersByHouseUseCaseProtocol
+    ) {
+        self.mainCharactersUseCase = mainCharactersUseCase
+        self.charactersByHouseUseCase = charactersByHouseUseCase
     }
 
     func loadCharacters() {
@@ -26,13 +31,29 @@ final class HomeViewModel {
 
         Task {
             do {
-                let result = try await useCase.execute()
+                let result = try await mainCharactersUseCase.execute()
                 characters = result
                 onStateChange?(.loaded(result))
             } catch {
                 onStateChange?(.error(error))
             }
         }
+    }
+
+    func loadCharactersByHouse(house: House) {
+        onStateChange?(.loading)
+        characters.removeAll()
+        
+        Task {
+            do {
+                let result = try await charactersByHouseUseCase.execute(house: house.name)
+                characters = result
+                onStateChange?(.loaded(result))
+            } catch {
+                onStateChange?(.error(error))
+            }
+        }
+        
     }
 
     func character(at index: Int) -> Character? {
