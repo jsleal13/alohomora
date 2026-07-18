@@ -10,19 +10,14 @@ import UIKit
 final class TrunkViewController: BaseViewController {
     let mainView: TrunkView
     let viewModel: TrunkViewModel
-//    let toggleFavorite: ToggleSpellFavoriteUseCaseProtocol
 
     override func loadView() {
         super.loadView()
         view = mainView
     }
     
-    init(
-        viewModel: TrunkViewModel
-//        toggleFavorite: ToggleSpellFavoriteUseCaseProtocol
-    ) {
+    init(viewModel: TrunkViewModel) {
         self.viewModel = viewModel
-//        self.toggleFavorite = toggleFavorite
         self.mainView = TrunkView()
         super.init(nibName: nil, bundle: nil)
     }
@@ -47,13 +42,13 @@ final class TrunkViewController: BaseViewController {
         viewModel.loadFavorites()
     }
     
-    private func handle(_ state: TrunkViewState<[TrunkItem]>) {
+    private func handle(_ state: TrunkViewState) {
         switch state {
         case .idle:
             break
         case .loading:
             mainView.startLoading()
-        case .loaded(let items):
+        case .loaded:
             mainView.stopLoading()
             animateReloadData()
             checkEmptyState()
@@ -81,7 +76,6 @@ final class TrunkViewController: BaseViewController {
         }
     }
     
-    
     private func setupLongPressGesture() {
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         longPress.minimumPressDuration = 0.5
@@ -100,11 +94,12 @@ final class TrunkViewController: BaseViewController {
             
             let impactMed = UIImpactFeedbackGenerator(style: .medium)
             impactMed.impactOccurred()
+
+            viewModel.packInTrunk(at: indexPath.item)
             
-            //TODO: remover do userDefaults
-            guard let item = viewModel.item(at: indexPath.item) else { return }
-            
-            cell.animateFavoriteFeedback(isAdding: false)
+            cell.animateFavoriteFeedback(isAdding: false) { [weak self] in
+                self?.viewModel.loadFavorites()
+            }
         }
     }
     

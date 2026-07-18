@@ -15,15 +15,18 @@ enum ViewState<T> {
 final class HomeViewModel {
     private let mainCharactersUseCase: FetchMainCharactersUseCaseProtocol
     private let charactersByHouseUseCase: FetchCharactersByHouseUseCaseProtocol
+    private let toggleFavorite: ToggleCharacterFavoriteUseCaseProtocol
     private(set) var characters: [Character] = []
     var onStateChange: ((ViewState<[Character]>) -> Void)?
-
+    
     init(
         mainCharactersUseCase: FetchMainCharactersUseCaseProtocol,
-        charactersByHouseUseCase: FetchCharactersByHouseUseCaseProtocol
+        charactersByHouseUseCase: FetchCharactersByHouseUseCaseProtocol,
+        toggleFavorite: ToggleCharacterFavoriteUseCaseProtocol
     ) {
         self.mainCharactersUseCase = mainCharactersUseCase
         self.charactersByHouseUseCase = charactersByHouseUseCase
+        self.toggleFavorite = toggleFavorite
     }
 
     func loadCharacters() {
@@ -54,6 +57,14 @@ final class HomeViewModel {
             }
         }
         
+    }
+    
+    func packInTrunk(id: String) {
+        toggleFavorite.packInTrunk(id)
+    }
+    
+    func checkIfIsPacked(id: String) -> Bool {
+        toggleFavorite.checkIfIsFavorite(id)
     }
 
     func character(at index: Int) -> Character? {

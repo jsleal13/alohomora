@@ -21,7 +21,7 @@ final class HomeView: UIView {
     private lazy var subtitle: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "Bom dia, bruxo(a)"
+        label.text = "Hello, wizard"
         label.font = UIFont(name: "Georgia-Bold", size: 18) ?? .systemFont(ofSize: 32, weight: .regular)
         label.textColor = .lightGray
         label.translatesAutoresizingMaskIntoConstraints = false

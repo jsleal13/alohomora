@@ -10,7 +10,6 @@ import UIKit
 final class SpellbookViewController: BaseViewController {
     let mainView: SpellbookView
     let viewModel: SpellbookViewModel
-    let toggleFavorite: ToggleSpellFavoriteUseCaseProtocol
 
     override func loadView() {
         super.loadView()
@@ -18,11 +17,9 @@ final class SpellbookViewController: BaseViewController {
     }
     
     init(
-        viewModel: SpellbookViewModel,
-        toggleFavorite: ToggleSpellFavoriteUseCaseProtocol
+        viewModel: SpellbookViewModel
     ) {
         self.viewModel = viewModel
-        self.toggleFavorite = toggleFavorite
         self.mainView = SpellbookView()
         super.init(nibName: nil, bundle: nil)
     }
@@ -78,11 +75,14 @@ final class SpellbookViewController: BaseViewController {
         let touchPoint = gesture.location(in: collectionView)
         
         if let indexPath = collectionView.indexPathForItem(at: touchPoint) {
-            if let spell = viewModel.spell(at: indexPath.item) {
-                toggleFavorite.packInTrunk(spell.id)
+            if let spell = viewModel.spell(at: indexPath.item), let cell = collectionView.cellForItem(at: indexPath) {
+                viewModel.packInTrunk(id: spell.id)
 
                 let impactMed = UIImpactFeedbackGenerator(style: .medium)
                 impactMed.impactOccurred()
+                
+                let isAdding = viewModel.checkIfIsPackec(id: spell.id)
+                cell.animateFavoriteFeedback(isAdding: isAdding)
             }
         }
     }

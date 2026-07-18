@@ -10,7 +10,6 @@ import UIKit
 final class HomeViewController: BaseViewController {
     let mainView: HomeView
     private let viewModel: HomeViewModel
-    let toggleFavorite: ToggleCharacterFavoriteUseCaseProtocol
 
     override func loadView() {
         super.loadView()
@@ -18,11 +17,9 @@ final class HomeViewController: BaseViewController {
     }
 
     init(
-        viewModel: HomeViewModel,
-        toggleFavorite: ToggleCharacterFavoriteUseCaseProtocol
+        viewModel: HomeViewModel
     ) {
         self.viewModel = viewModel
-        self.toggleFavorite = toggleFavorite
         self.mainView = HomeView()
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,7 +52,6 @@ final class HomeViewController: BaseViewController {
         case .loading:
             mainView.charactersView.startLoading()
         case .loaded(let characters):
-            /// ainda que não esteja seja usado, deixei para lembrar que é possível passar generics nos enums
             mainView.charactersView.stopLoading()
             UIView.transition(
                 with: mainView.charactersView.mainCarroussel,
@@ -86,9 +82,11 @@ final class HomeViewController: BaseViewController {
         let touchPoint = gesture.location(in: collectionView)
         
         if let indexPath = collectionView.indexPathForItem(at: touchPoint) {
-            if let character = viewModel.character(at: indexPath.item) {
+            if let character = viewModel.character(at: indexPath.item), let cell = collectionView.cellForItem(at: indexPath) {
 
-                toggleFavorite.packInTrunk(character.id)
+                viewModel.packInTrunk(id: character.id)
+                let isAdding = viewModel.checkIfIsPacked(id: character.id)
+                cell.animateFavoriteFeedback(isAdding: isAdding)
 
                 let impactMed = UIImpactFeedbackGenerator(style: .medium)
                 impactMed.impactOccurred()

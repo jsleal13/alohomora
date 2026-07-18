@@ -17,10 +17,15 @@ enum SpellbookViewState<T> {
 final class SpellbookViewModel {
     private let fetchSpellsUseCase: FetchSpellsUseCaseProtocol
     private var spells: [Spell] = []
+    let toggleFavorite: ToggleSpellFavoriteUseCaseProtocol
     var onStateChange: ((SpellbookViewState<[Spell]>) -> Void)?
     
-    init(fetchSpellsUseCase: FetchSpellsUseCaseProtocol) {
+    init(
+        fetchSpellsUseCase: FetchSpellsUseCaseProtocol,
+        toggleFavorite: ToggleSpellFavoriteUseCaseProtocol
+    ) {
         self.fetchSpellsUseCase = fetchSpellsUseCase
+        self.toggleFavorite = toggleFavorite
     }
     
     func loadSpells() {
@@ -40,5 +45,13 @@ final class SpellbookViewModel {
     func spell(at index: Int) -> Spell? {
         guard spells.indices.contains(index) else { return nil }
         return spells[index]
+    }
+    
+    func checkIfIsPackec(id: String) -> Bool {
+        toggleFavorite.checkIfIsFavorite(id)
+    }
+    
+    func packInTrunk(id: String) {
+        toggleFavorite.packInTrunk(id)
     }
 }

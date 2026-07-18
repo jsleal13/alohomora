@@ -7,10 +7,12 @@
 
 protocol ToggleCharacterFavoriteUseCaseProtocol {
     func packInTrunk(_ characterId: String)
+    func checkIfIsFavorite(_ characterId: String) -> Bool
 }
 
 protocol ToggleSpellFavoriteUseCaseProtocol {
     func packInTrunk(_ spellId: String)
+    func checkIfIsFavorite(_ spellId: String) -> Bool
 }
 
 final class ToggleCharacterFavoriteUseCase: ToggleCharacterFavoriteUseCaseProtocol{
@@ -23,6 +25,10 @@ final class ToggleCharacterFavoriteUseCase: ToggleCharacterFavoriteUseCaseProtoc
     func packInTrunk(_ characterId: String) {
         repository.toggleFavorite(id: characterId, type: .character)
     }
+    
+    func checkIfIsFavorite(_ characterId: String) -> Bool {
+        repository.isFavorite(id: characterId, type: .character)
+    }
 }
 
 final class ToggleSpellFavoriteUseCase: ToggleSpellFavoriteUseCaseProtocol {
@@ -34,6 +40,10 @@ final class ToggleSpellFavoriteUseCase: ToggleSpellFavoriteUseCaseProtocol {
     
     func packInTrunk(_ spellId: String) {
         repository.toggleFavorite(id: spellId, type: .spell)
+    }
+    
+    func checkIfIsFavorite(_ spellId: String) -> Bool {
+        repository.isFavorite(id: spellId, type: .spell)
     }
 }
 

@@ -13,8 +13,8 @@ final class SpellbookFactory {
         let toggleFavorite = ToggleSpellFavoriteUseCase(repository: favoriteReository)
         let repository = SpellsRepository()
         let fetchSpellsUseCase = FetchSpellsUseCase(repository: repository)
-        let viewModel = SpellbookViewModel(fetchSpellsUseCase: fetchSpellsUseCase)
-        let viewController = SpellbookViewController(viewModel: viewModel, toggleFavorite: toggleFavorite)
+        let viewModel = SpellbookViewModel(fetchSpellsUseCase: fetchSpellsUseCase, toggleFavorite: toggleFavorite)
+        let viewController = SpellbookViewController(viewModel: viewModel)
 
         return viewController
     }

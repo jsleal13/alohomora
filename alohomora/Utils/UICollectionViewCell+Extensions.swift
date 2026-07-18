@@ -8,7 +8,7 @@
 import UIKit
 
 extension UICollectionViewCell {
-    func animateFavoriteFeedback(isAdding: Bool) {
+    func animateFavoriteFeedback(isAdding: Bool, completion: (() -> Void)? = nil) {
         let imageName = isAdding ? "heart.fill" : "heart.slash.fill"
         let iconColor = isAdding ? UIColor(red: 0.93, green: 0.73, blue: 0.21, alpha: 1.0) : UIColor.systemRed
         
@@ -47,6 +47,7 @@ extension UICollectionViewCell {
                 imageView.transform = CGAffineTransform(scaleX: 1.4, y: 1.4)
             }) { _ in
                 imageView.removeFromSuperview()
+                completion?()
             }
         }
     }

@@ -5,10 +5,10 @@
 //  Created by Janine Leal on 16/07/26.
 //
 
-enum TrunkViewState<T> {
+enum TrunkViewState {
     case idle
     case loading
-    case loaded(T)
+    case loaded
     case error(Error)
 }
 
@@ -20,16 +20,22 @@ enum TrunkItem {
 final class TrunkViewModel {
     private let fetchSpellsUseCase: FetchFavoriteSpellsUseCaseProtocol
     private let fetchCharactersUseCase: FetchFavoriteCharactersUseCaseProtocol
+    private let toggleFavoriteCharacter: ToggleCharacterFavoriteUseCaseProtocol
+    private let toggleFavoriteSpell: ToggleSpellFavoriteUseCaseProtocol
     private(set) var items: [TrunkItem] = []
     
-    var onStateChange: ((TrunkViewState<[TrunkItem]>) -> Void)?
+    var onStateChange: ((TrunkViewState) -> Void)?
     
     init(
         fetchSpellsUseCase: FetchFavoriteSpellsUseCaseProtocol,
-        fetchCharactersUseCase: FetchFavoriteCharactersUseCaseProtocol
+        fetchCharactersUseCase: FetchFavoriteCharactersUseCaseProtocol,
+        toggleFavoriteCharacter: ToggleCharacterFavoriteUseCaseProtocol,
+        toggleFavoriteSpell: ToggleSpellFavoriteUseCaseProtocol
     ) {
         self.fetchSpellsUseCase = fetchSpellsUseCase
         self.fetchCharactersUseCase = fetchCharactersUseCase
+        self.toggleFavoriteSpell = toggleFavoriteSpell
+        self.toggleFavoriteCharacter = toggleFavoriteCharacter
     }
     
     func loadFavorites() {
@@ -47,10 +53,23 @@ final class TrunkViewModel {
                 
                 self.items = characterItems + spellItems
                 
-                onStateChange?(.loaded(self.items))
+                onStateChange?(.loaded)
             } catch {
                 onStateChange?(.error(error))
             }
+        }
+    }
+    
+    func packInTrunk(at index: Int) {
+        let item = item(at: index)
+        switch item {
+        case .character(let character):
+            toggleFavoriteCharacter.packInTrunk(character.id)
+        
+        case .spell(let spell):
+            toggleFavoriteSpell.packInTrunk(spell.id)
+        default:
+            break
         }
     }
 
