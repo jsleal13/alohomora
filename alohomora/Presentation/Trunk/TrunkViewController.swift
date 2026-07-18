@@ -95,13 +95,16 @@ final class TrunkViewController: BaseViewController {
         let collectionView = mainView.collectionView
         let touchPoint = gesture.location(in: collectionView)
         
-        if let indexPath = collectionView.indexPathForItem(at: touchPoint) {
-//            if let spell = viewModel.spell(at: indexPath.item) {
-//                toggleFavorite.packInTrunk(spell.id)
-//
-//                let impactMed = UIImpactFeedbackGenerator(style: .medium)
-//                impactMed.impactOccurred()
-//            }
+        if let indexPath = collectionView.indexPathForItem(at: touchPoint),
+           let cell = collectionView.cellForItem(at: indexPath) {
+            
+            let impactMed = UIImpactFeedbackGenerator(style: .medium)
+            impactMed.impactOccurred()
+            
+            //TODO: remover do userDefaults
+            guard let item = viewModel.item(at: indexPath.item) else { return }
+            
+            cell.animateFavoriteFeedback(isAdding: false)
         }
     }
     
