@@ -45,13 +45,13 @@ final class HomeViewController: BaseViewController {
         viewModel.loadCharacters()
     }
 
-    private func handle(_ state: ViewState<[Character]>) {
+    private func handle(_ state: ViewState) {
         switch state {
         case .idle:
             break
         case .loading:
             mainView.charactersView.startLoading()
-        case .loaded(let characters):
+        case .loaded:
             mainView.charactersView.stopLoading()
             UIView.transition(
                 with: mainView.charactersView.mainCarroussel,
@@ -64,7 +64,7 @@ final class HomeViewController: BaseViewController {
             )
         case .error(let error):
             mainView.charactersView.stopLoading()
-            //            contentView.showError(error.localizedDescription)
+            //show error
         }
     }
 

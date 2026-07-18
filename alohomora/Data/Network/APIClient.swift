@@ -18,9 +18,13 @@ enum NetworkingError: Error {
 }
 
 class APIClient: RequestProtocol {
-    let urlSession = URLSession.shared
+    private let urlSession: URLSession
     static let shared = APIClient()
-
+    
+    init(urlSession: URLSession = .shared) {
+        self.urlSession = urlSession
+    }
+    
     func request<T>(target: RequestInfos) async throws -> (T) where T : Decodable {
         let url = target.baseURL + target.endpoint
         guard var components = URLComponents(string: url) else { throw NetworkingError.noComponents }

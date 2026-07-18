@@ -39,6 +39,7 @@ final class TrunkViewController: BaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        mainView.clearView()
         viewModel.loadFavorites()
     }
     
@@ -48,13 +49,15 @@ final class TrunkViewController: BaseViewController {
             break
         case .loading:
             mainView.startLoading()
+
         case .loaded:
-            mainView.stopLoading()
-            animateReloadData()
-            checkEmptyState()
+            mainView.stopLoading { [weak self] in
+                self?.checkEmptyState()
+            }
+           
         case .error(let error):
             mainView.stopLoading()
-            //            contentView.showError(error.localizedDescription)
+            // show error
         }
     }
     
@@ -71,9 +74,8 @@ final class TrunkViewController: BaseViewController {
     }
     
     private func checkEmptyState() {
-        if viewModel.items.isEmpty {
-            
-        }
+        mainView.updateEmptyState(isEmpty: viewModel.items.isEmpty)
+        animateReloadData()
     }
     
     private func setupLongPressGesture() {
@@ -98,6 +100,7 @@ final class TrunkViewController: BaseViewController {
             viewModel.packInTrunk(at: indexPath.item)
             
             cell.animateFavoriteFeedback(isAdding: false) { [weak self] in
+                self?.mainView.clearView()
                 self?.viewModel.loadFavorites()
             }
         }

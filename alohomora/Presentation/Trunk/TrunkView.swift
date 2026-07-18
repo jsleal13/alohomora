@@ -8,6 +8,13 @@
 import UIKit
 
 final class TrunkView: UIView {
+    private lazy var emptyStateView: TrunkEmptyStateView = {
+        let view = TrunkEmptyStateView()
+        view.isHidden = true
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
     private lazy var progressBar: ProgressBar = {
         let element = ProgressBar()
         element.gradientColors = [.systemRed, .systemYellow]
@@ -57,6 +64,7 @@ final class TrunkView: UIView {
     private func setElements() {
         addSubview(titleLabel)
         addSubview(collectionView)
+        addSubview(emptyStateView)
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 16),
@@ -66,15 +74,30 @@ final class TrunkView: UIView {
             collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            emptyStateView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            emptyStateView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            emptyStateView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            emptyStateView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
     func startLoading() {
-        progressBar.startLoading(in: self, fadingOut: collectionView)
+        progressBar.startLoading(in: self, fadingOut: nil)
     }
 
-    func stopLoading() {
-        progressBar.stopLoading(showing: collectionView)
+    func stopLoading(completion: (() -> Void)? = nil) {
+        progressBar.stopLoading(showing: collectionView, completion: completion)
+    }
+
+    func clearView() {
+        collectionView.isHidden = true
+        emptyStateView.isHidden = true
+    }
+
+    func updateEmptyState(isEmpty: Bool) {
+        emptyStateView.isHidden = !isEmpty
+        collectionView.isHidden = isEmpty
     }
 }

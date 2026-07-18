@@ -56,7 +56,7 @@ final class SpellbookViewController: BaseViewController {
             )
         case .error(let error):
             mainView.stopLoading()
-            //            contentView.showError(error.localizedDescription)
+            // show error
         }
     }
     

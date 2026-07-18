@@ -139,17 +139,18 @@ final class ProgressBar: UIView {
         }
     }
 
-    func stopLoading(showing contentView: UIView?) {
+    func stopLoading(showing contentView: UIView?, completion: (() -> Void)? = nil) {
         UIView.animate(withDuration: 0.2, animations: {
             self.alpha = 0.0
         }) { _ in
             self.shimmerLayer.removeAnimation(forKey: "shimmerSlide")
             self.progressShape.removeAnimation(forKey: "indeterminateSlide")
             self.removeFromSuperview()
-            
+            completion?()
             if let contentView = contentView {
                 UIView.animate(withDuration: 0.25) {
                     contentView.alpha = 1.0
+                    
                 }
             }
         }

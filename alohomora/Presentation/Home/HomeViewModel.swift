@@ -5,10 +5,10 @@
 //  Created by Janine Leal on 14/07/26.
 //
 
-enum ViewState<T> {
+enum ViewState {
     case idle
     case loading
-    case loaded(T)
+    case loaded
     case error(Error)
 }
 
@@ -17,7 +17,7 @@ final class HomeViewModel {
     private let charactersByHouseUseCase: FetchCharactersByHouseUseCaseProtocol
     private let toggleFavorite: ToggleCharacterFavoriteUseCaseProtocol
     private(set) var characters: [Character] = []
-    var onStateChange: ((ViewState<[Character]>) -> Void)?
+    var onStateChange: ((ViewState) -> Void)?
     
     init(
         mainCharactersUseCase: FetchMainCharactersUseCaseProtocol,
@@ -36,7 +36,7 @@ final class HomeViewModel {
             do {
                 let result = try await mainCharactersUseCase.execute()
                 characters = result
-                onStateChange?(.loaded(result))
+                onStateChange?(.loaded)
             } catch {
                 onStateChange?(.error(error))
             }
@@ -51,7 +51,7 @@ final class HomeViewModel {
             do {
                 let result = try await charactersByHouseUseCase.execute(house: house.name)
                 characters = result
-                onStateChange?(.loaded(result))
+                onStateChange?(.loaded)
             } catch {
                 onStateChange?(.error(error))
             }
