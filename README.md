@@ -2,11 +2,11 @@
 Alohomora é um aplicativo iOS nativo que consome dados do universo de Harry Potter para listar personagens, feitiços e gerenciar um baú de favoritos. O projeto foi desenvolvido com foco em alta testabilidade, isolamento de responsabilidades e escalabilidade.
 
 ## 🛠️ Arquitetura e Padrões de Projeto
-O projeto foi construído seguindo rigorosamente os princípios do SOLID e do desenvolvimento limpo:
+O projeto foi construído seguindo os princípios do SOLID e do desenvolvimento limpo:
 - Clean Architecture + MVVM: Separação clara em três camadas independentes:
-- Data: Responsável pelo consumo de rede (APIClient) e persistência.
-- Domain: Contém as regras de negócio puras (Entities, contratos de Repositories e UseCases).
-- Presentation: Controla a UI usando o padrão MVVM com View Code.
+  - Data: Responsável pelo consumo de rede (APIClient) e persistência.
+  - Domain: Contém as regras de negócio puras (Entities, contratos de Repositories e UseCases).
+  - Presentation: Controla a UI usando o padrão MVVM com View Code.
 - Coordinator Pattern: Toda a navegação do aplicativo é centralizada e controlada por camadas de fluxo (Coordinators), removendo o acoplamento de navegação de dentro das ViewControllers.
 - Abstract Factories & Injeção de Dependência: A inicialização e acoplamento das ViewModels, UseCases e Controllers da camada de apresentação são resolvidos através de factories, facilitando o uso de mocks nos testes unitários.
 
