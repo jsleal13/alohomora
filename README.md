@@ -35,7 +35,7 @@ alohomora
 │   ├── Home / Spellbook / Trunk (Módulos MVVM + Factories)
 │   └── TabBar (Navegação base)
 └── Utils (Extensões de UIKit e Foundation)
-```text
+```
 
 ### 📌 Status do Desenvolvimento
 ⚠️ Nota: A estrutura arquitetural e as abas de Home, Spellbook e Trunk estão 100% operacionais. A aba correspondente ao Chapéu Seletor (Sorting Hat) consta na barra de navegação para fechamento de escopo de layout, porém sua lógica de negócio interna não foi implementada ainda.
