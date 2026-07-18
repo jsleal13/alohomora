@@ -19,6 +19,7 @@ O projeto foi construído seguindo os princípios do SOLID e do desenvolvimento 
 - Extensões Reutilizáveis: Comportamentos visuais compartilhados e customizações (como paleta de cores e animações de feedback) foram isolados em extensões utilitárias (Utils) para maximizar o reaproveitamento de código.
 
 ## 📂 Estrutura do Projeto
+```text
 alohomora
 ├── App
 ├── Data
